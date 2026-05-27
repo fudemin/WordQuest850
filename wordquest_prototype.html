@@ -1,0 +1,1337 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WordQuest 850 — 产品原型</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --primary: #FF6B35;
+  --primary-light: #FF8C5A;
+  --primary-bg: #FFF3EE;
+  --green: #2ECC71;
+  --green-bg: #E8F8F0;
+  --blue: #3498DB;
+  --blue-bg: #EBF5FB;
+  --purple: #9B59B6;
+  --purple-bg: #F5EEF8;
+  --amber: #F39C12;
+  --amber-bg: #FEF9E7;
+  --red: #E74C3C;
+  --red-bg: #FDEDEC;
+  --gray-50: #FAFAF9;
+  --gray-100: #F4F3F0;
+  --gray-200: #E8E6E1;
+  --gray-400: #A8A29E;
+  --gray-700: #44403C;
+  --gray-900: #1C1917;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --shadow-sm: 0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.05);
+  --shadow-md: 0 4px 12px rgba(0,0,0,.10), 0 2px 4px rgba(0,0,0,.06);
+  --shadow-lg: 0 8px 24px rgba(0,0,0,.12), 0 4px 8px rgba(0,0,0,.06);
+  --font-display: 'Nunito', sans-serif;
+  --font-body: 'Noto Sans SC', sans-serif;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: var(--font-body);
+  background: #F0EDE8;
+  color: var(--gray-900);
+  min-height: 100vh;
+}
+
+/* ===== NAV ===== */
+.proto-nav {
+  background: white;
+  border-bottom: 1px solid var(--gray-200);
+  padding: 0 2rem;
+  display: flex;
+  align-items: center;
+  gap: 0;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: var(--shadow-sm);
+}
+.proto-logo {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: 20px;
+  color: var(--primary);
+  padding: 1rem 1.5rem 1rem 0;
+  border-right: 1px solid var(--gray-200);
+  margin-right: 1.5rem;
+  letter-spacing: -0.5px;
+}
+.proto-logo span { color: var(--gray-900); }
+.nav-tab {
+  padding: .75rem 1.25rem;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--gray-400);
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  transition: all .15s;
+  white-space: nowrap;
+}
+.nav-tab:hover { color: var(--gray-700); }
+.nav-tab.active { color: var(--primary); border-bottom-color: var(--primary); }
+.nav-badge {
+  display: inline-block;
+  background: var(--primary-bg);
+  color: var(--primary);
+  font-size: 10px;
+  font-weight: 700;
+  padding: 1px 6px;
+  border-radius: 10px;
+  margin-left: 4px;
+  vertical-align: middle;
+}
+
+/* ===== LAYOUT ===== */
+.screens-wrap { display: none; padding: 2rem; gap: 2rem; }
+.screens-wrap.active { display: flex; flex-wrap: wrap; }
+.screen-frame {
+  background: white;
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-lg);
+  overflow: hidden;
+  flex-shrink: 0;
+}
+.screen-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--gray-400);
+  margin-bottom: .75rem;
+}
+
+/* ===== PHONE SHELL ===== */
+.phone {
+  width: 360px;
+  min-height: 720px;
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  box-shadow: var(--shadow-lg);
+  flex-shrink: 0;
+}
+.phone-status {
+  background: var(--gray-900);
+  color: white;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 10px 20px 6px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* ===== SCREENS ===== */
+
+/* HOME */
+.home-screen { background: linear-gradient(160deg, #FFF8F5 0%, #FFF3EE 100%); min-height: 680px; }
+.home-header {
+  padding: 20px 20px 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.home-greeting { font-size: 13px; color: var(--gray-400); }
+.home-name { font-family: var(--font-display); font-size: 20px; font-weight: 800; color: var(--gray-900); }
+.home-avatar {
+  width: 40px; height: 40px; border-radius: 50%;
+  background: var(--primary);
+  color: white;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 16px;
+  display: flex; align-items: center; justify-content: center;
+}
+.streak-banner {
+  margin: 0 16px 16px;
+  background: linear-gradient(135deg, var(--primary) 0%, #FF8C5A 100%);
+  border-radius: var(--radius-lg);
+  padding: 14px 16px;
+  color: white;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.streak-flame { font-size: 32px; }
+.streak-text { flex: 1; }
+.streak-days { font-family: var(--font-display); font-size: 22px; font-weight: 900; }
+.streak-label { font-size: 12px; opacity: .85; }
+.streak-pts { font-family: var(--font-display); font-size: 18px; font-weight: 800; }
+.streak-pts-label { font-size: 11px; opacity: .8; }
+
+.section-title {
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--gray-700);
+  padding: 0 16px 10px;
+}
+
+/* Today's word hero */
+.word-hero {
+  margin: 0 16px 16px;
+  background: white;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  overflow: hidden;
+}
+.word-hero-img {
+  width: 100%;
+  height: 140px;
+  background: linear-gradient(135deg, #E8F4FD 0%, #D5EBF8 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+.word-hero-emoji { font-size: 72px; }
+.word-hero-tag {
+  position: absolute;
+  top: 10px; left: 10px;
+  background: var(--primary);
+  color: white;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 20px;
+  letter-spacing: .03em;
+}
+.word-hero-body { padding: 12px 14px; }
+.word-hero-en {
+  font-family: var(--font-display);
+  font-size: 26px;
+  font-weight: 900;
+  color: var(--gray-900);
+  letter-spacing: -0.5px;
+}
+.word-hero-phonetic { font-size: 12px; color: var(--gray-400); margin: 1px 0 4px; }
+.word-hero-cn { font-size: 14px; color: var(--gray-700); margin-bottom: 8px; }
+.word-hero-example { font-size: 12px; color: var(--gray-400); font-style: italic; line-height: 1.5; }
+.word-hero-actions { display: flex; gap: 8px; margin-top: 10px; }
+.btn-sm {
+  flex: 1;
+  padding: 8px;
+  border-radius: var(--radius-sm);
+  font-size: 12px;
+  font-weight: 700;
+  text-align: center;
+  cursor: pointer;
+  border: none;
+  font-family: var(--font-body);
+}
+.btn-primary { background: var(--primary); color: white; }
+.btn-outline { background: transparent; color: var(--gray-700); border: 1.5px solid var(--gray-200); }
+
+/* Level map */
+.level-map { padding: 0 16px; }
+.level-row {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 8px;
+  align-items: center;
+}
+.level-node {
+  width: 52px; height: 52px;
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: 9px;
+  font-weight: 700;
+  flex-shrink: 0;
+  position: relative;
+}
+.level-node .node-icon { font-size: 18px; margin-bottom: 1px; }
+.level-node.done { background: var(--green); color: white; box-shadow: 0 3px 8px rgba(46,204,113,.35); }
+.level-node.current { background: var(--primary); color: white; box-shadow: 0 3px 10px rgba(255,107,53,.4); animation: pulse 2s infinite; }
+.level-node.locked { background: var(--gray-200); color: var(--gray-400); }
+@keyframes pulse { 0%,100%{box-shadow:0 3px 10px rgba(255,107,53,.4)} 50%{box-shadow:0 3px 18px rgba(255,107,53,.65)} }
+.level-info { flex: 1; }
+.level-info-name { font-size: 13px; font-weight: 700; color: var(--gray-900); }
+.level-info-sub { font-size: 11px; color: var(--gray-400); }
+.level-stars { font-size: 13px; }
+
+/* LEARN SCREEN */
+.learn-screen { background: #FAFAF9; min-height: 680px; }
+.learn-header {
+  background: white;
+  padding: 14px 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border-bottom: 1px solid var(--gray-200);
+}
+.back-btn {
+  width: 32px; height: 32px;
+  border-radius: var(--radius-sm);
+  background: var(--gray-100);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  cursor: pointer;
+}
+.learn-title { font-family: var(--font-display); font-size: 16px; font-weight: 800; color: var(--gray-900); flex: 1; }
+.hearts { font-size: 13px; }
+
+.learn-progress { padding: 12px 16px 0; display: flex; align-items: center; gap: 8px; }
+.prog-bar { flex: 1; height: 8px; background: var(--gray-200); border-radius: 4px; overflow: hidden; }
+.prog-fill { height: 100%; background: linear-gradient(90deg, var(--primary), var(--primary-light)); border-radius: 4px; }
+.prog-label { font-size: 12px; color: var(--gray-400); font-weight: 600; }
+
+/* Word card with image */
+.word-card-big {
+  margin: 16px;
+  background: white;
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-md);
+  overflow: hidden;
+}
+.word-card-img {
+  width: 100%;
+  height: 200px;
+  position: relative;
+  overflow: hidden;
+}
+.word-img-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 90px;
+}
+.img-source-tag {
+  position: absolute;
+  bottom: 8px; right: 8px;
+  background: rgba(0,0,0,.45);
+  color: white;
+  font-size: 9px;
+  padding: 2px 6px;
+  border-radius: 10px;
+  backdrop-filter: blur(4px);
+}
+.audio-fab {
+  position: absolute;
+  bottom: -18px; left: 20px;
+  width: 44px; height: 44px;
+  background: var(--primary);
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  box-shadow: 0 4px 12px rgba(255,107,53,.45);
+  z-index: 2;
+  cursor: pointer;
+}
+.word-card-body { padding: 24px 20px 18px; }
+.wc-en {
+  font-family: var(--font-display);
+  font-size: 32px;
+  font-weight: 900;
+  color: var(--gray-900);
+  letter-spacing: -1px;
+}
+.wc-phonetic { font-size: 13px; color: var(--gray-400); margin: 2px 0 6px; }
+.wc-part { display: inline-block; background: var(--blue-bg); color: var(--blue); font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 20px; margin-bottom: 8px; }
+.wc-cn { font-size: 20px; font-weight: 700; color: var(--gray-900); margin-bottom: 6px; }
+.wc-example { font-size: 13px; color: var(--gray-400); line-height: 1.6; font-style: italic; }
+.wc-example em { color: var(--primary); font-style: normal; font-weight: 700; }
+
+/* Quiz area */
+.quiz-area { padding: 0 16px 16px; }
+.quiz-q { font-size: 14px; font-weight: 700; color: var(--gray-700); margin-bottom: 12px; text-align: center; }
+.opts { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.opt {
+  background: white;
+  border: 2px solid var(--gray-200);
+  border-radius: var(--radius-md);
+  padding: 12px 10px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--gray-900);
+  text-align: center;
+  cursor: pointer;
+  transition: all .15s;
+  line-height: 1.3;
+}
+.opt:hover { border-color: var(--primary); color: var(--primary); }
+.opt.correct { border-color: var(--green); background: var(--green-bg); color: var(--green); }
+.opt.wrong { border-color: var(--red); background: var(--red-bg); color: var(--red); }
+
+/* IMAGE SEARCH SCREEN */
+.img-search-screen { background: #FAFAF9; min-height: 680px; }
+.img-search-header {
+  background: white;
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--gray-200);
+}
+.img-search-title { font-family: var(--font-display); font-size: 16px; font-weight: 800; margin-bottom: 10px; }
+.search-bar {
+  display: flex;
+  align-items: center;
+  background: var(--gray-100);
+  border-radius: var(--radius-md);
+  padding: 8px 12px;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--gray-700);
+}
+.search-bar span:first-child { font-size: 16px; }
+
+.img-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 3px; padding: 3px; }
+.img-cell {
+  aspect-ratio: 1;
+  background: var(--gray-100);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 36px;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+}
+.img-cell-overlay {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  background: linear-gradient(transparent, rgba(0,0,0,.6));
+  color: white;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 8px 6px 5px;
+  text-align: center;
+}
+.img-cell.selected { outline: 3px solid var(--primary); outline-offset: -3px; }
+.img-cell .check-badge {
+  position: absolute;
+  top: 5px; right: 5px;
+  background: var(--primary);
+  color: white;
+  width: 18px; height: 18px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  font-weight: 900;
+}
+
+.img-action-bar {
+  background: white;
+  border-top: 1px solid var(--gray-200);
+  padding: 12px 16px;
+  display: flex;
+  gap: 8px;
+}
+.img-action-bar .btn-sm { padding: 10px; }
+
+/* STATS SCREEN */
+.stats-screen { background: var(--gray-50); min-height: 680px; }
+.stats-header {
+  background: linear-gradient(135deg, var(--purple) 0%, #7D3C98 100%);
+  padding: 20px 16px 24px;
+  color: white;
+}
+.stats-header-title { font-family: var(--font-display); font-size: 18px; font-weight: 900; margin-bottom: 16px; }
+.stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.stat-card {
+  background: rgba(255,255,255,.18);
+  border-radius: var(--radius-md);
+  padding: 12px;
+  text-align: center;
+}
+.stat-num { font-family: var(--font-display); font-size: 26px; font-weight: 900; }
+.stat-lbl { font-size: 11px; opacity: .8; }
+.heatmap { padding: 16px; }
+.heatmap-title { font-size: 13px; font-weight: 700; color: var(--gray-700); margin-bottom: 10px; }
+.heatmap-grid { display: grid; grid-template-columns: repeat(15, 1fr); gap: 3px; }
+.hm-cell {
+  aspect-ratio: 1;
+  border-radius: 2px;
+  background: var(--gray-200);
+}
+.hm-cell.l1 { background: #FDDFD5; }
+.hm-cell.l2 { background: #FFB199; }
+.hm-cell.l3 { background: #FF8C5A; }
+.hm-cell.l4 { background: var(--primary); }
+.hm-cell.today { outline: 2px solid var(--gray-900); outline-offset: 1px; }
+
+.mastery-chart { padding: 0 16px 16px; }
+.mastery-title { font-size: 13px; font-weight: 700; color: var(--gray-700); margin-bottom: 10px; }
+.mastery-row { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+.mastery-cat { font-size: 12px; color: var(--gray-700); width: 60px; flex-shrink: 0; }
+.mastery-bar-wrap { flex: 1; height: 10px; background: var(--gray-200); border-radius: 5px; overflow: hidden; }
+.mastery-bar { height: 100%; border-radius: 5px; }
+.mastery-pct { font-size: 11px; color: var(--gray-400); width: 30px; text-align: right; }
+
+/* CHALLENGE SCREEN */
+.chal-screen { background: #1A1A2E; min-height: 680px; }
+.chal-header {
+  padding: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.chal-title { font-family: var(--font-display); font-size: 18px; font-weight: 900; color: white; }
+.timer-badge {
+  background: rgba(255,255,255,.12);
+  border: 1px solid rgba(255,255,255,.2);
+  border-radius: var(--radius-md);
+  padding: 6px 12px;
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 900;
+  color: #FFD700;
+  min-width: 70px;
+  text-align: center;
+}
+.chal-word-img {
+  margin: 0 16px;
+  height: 180px;
+  background: linear-gradient(135deg, #16213E, #0F3460);
+  border-radius: var(--radius-xl);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 80px;
+  position: relative;
+  overflow: hidden;
+}
+.chal-word-img::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 50%, rgba(255,107,53,.08) 0%, transparent 70%);
+}
+.chal-word-en {
+  font-family: var(--font-display);
+  font-size: 36px;
+  font-weight: 900;
+  color: white;
+  text-align: center;
+  padding: 16px;
+  letter-spacing: -1px;
+}
+.chal-opts { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 0 16px; }
+.chal-opt {
+  background: rgba(255,255,255,.08);
+  border: 1.5px solid rgba(255,255,255,.15);
+  border-radius: var(--radius-md);
+  padding: 14px 10px;
+  font-size: 14px;
+  font-weight: 700;
+  color: rgba(255,255,255,.9);
+  text-align: center;
+  cursor: pointer;
+}
+.chal-opt.correct { background: rgba(46,204,113,.25); border-color: var(--green); color: var(--green); }
+.chal-opt.wrong { background: rgba(231,76,60,.2); border-color: var(--red); color: #FF6B6B; }
+.chal-score-bar {
+  display: flex;
+  justify-content: space-between;
+  padding: 16px 16px 0;
+}
+.chal-score-item { text-align: center; }
+.chal-score-num { font-family: var(--font-display); font-size: 20px; font-weight: 900; color: white; }
+.chal-score-lbl { font-size: 10px; color: rgba(255,255,255,.5); }
+
+/* PRD DOC PAGE */
+.prd-page {
+  display: none;
+  padding: 2rem;
+  max-width: 900px;
+}
+.prd-page.active { display: block; }
+.prd-doc {
+  background: white;
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-md);
+  overflow: hidden;
+}
+.prd-hero {
+  background: linear-gradient(135deg, var(--primary) 0%, #FF8C5A 60%, var(--amber) 100%);
+  padding: 40px 40px 32px;
+  color: white;
+}
+.prd-hero-tag { font-size: 12px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; opacity: .8; margin-bottom: 8px; }
+.prd-hero-title { font-family: var(--font-display); font-size: 36px; font-weight: 900; line-height: 1.1; letter-spacing: -1px; margin-bottom: 10px; }
+.prd-hero-sub { font-size: 15px; opacity: .85; line-height: 1.6; }
+.prd-meta { display: flex; gap: 24px; margin-top: 20px; flex-wrap: wrap; }
+.prd-meta-item { font-size: 12px; opacity: .8; }
+.prd-meta-item strong { opacity: 1; display: block; font-size: 13px; font-weight: 700; }
+
+.prd-body { padding: 40px; }
+.prd-toc {
+  background: var(--gray-50);
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius-lg);
+  padding: 20px 24px;
+  margin-bottom: 32px;
+}
+.prd-toc-title { font-size: 12px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--gray-400); margin-bottom: 12px; }
+.prd-toc-list { list-style: none; display: grid; grid-template-columns: 1fr 1fr; gap: 4px 24px; }
+.prd-toc-list a { font-size: 13px; color: var(--primary); text-decoration: none; font-weight: 600; }
+.prd-toc-list a:hover { text-decoration: underline; }
+
+.prd-section { margin-bottom: 36px; }
+.prd-section-num {
+  display: inline-block;
+  background: var(--primary);
+  color: white;
+  font-family: var(--font-display);
+  font-size: 12px;
+  font-weight: 900;
+  width: 24px; height: 24px;
+  border-radius: 50%;
+  text-align: center;
+  line-height: 24px;
+  margin-right: 8px;
+  flex-shrink: 0;
+}
+.prd-h2 {
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--gray-900);
+  margin-bottom: 16px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid var(--gray-100);
+  display: flex;
+  align-items: center;
+}
+.prd-h3 { font-size: 15px; font-weight: 700; color: var(--gray-700); margin: 16px 0 8px; }
+.prd-p { font-size: 14px; color: var(--gray-700); line-height: 1.8; margin-bottom: 10px; }
+.prd-tag {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 20px;
+  margin: 2px;
+}
+.tag-must { background: var(--red-bg); color: var(--red); }
+.tag-should { background: var(--amber-bg); color: var(--amber); }
+.tag-nice { background: var(--green-bg); color: var(--green); }
+
+.feature-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  margin: 12px 0 20px;
+}
+.feature-table th {
+  background: var(--gray-100);
+  padding: 10px 12px;
+  text-align: left;
+  font-weight: 700;
+  color: var(--gray-700);
+  border-bottom: 2px solid var(--gray-200);
+}
+.feature-table td {
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--gray-100);
+  color: var(--gray-700);
+  vertical-align: top;
+  line-height: 1.5;
+}
+.feature-table tr:last-child td { border-bottom: none; }
+
+.flow-steps { display: flex; flex-direction: column; gap: 0; }
+.flow-step {
+  display: flex;
+  gap: 14px;
+  padding: 14px 0;
+  position: relative;
+}
+.flow-step:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  left: 15px;
+  top: 44px;
+  bottom: 0;
+  width: 2px;
+  background: var(--gray-200);
+}
+.flow-dot {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: var(--primary-bg);
+  border: 2px solid var(--primary);
+  color: var(--primary);
+  font-size: 12px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.flow-content { flex: 1; padding-top: 4px; }
+.flow-title { font-size: 14px; font-weight: 700; color: var(--gray-900); margin-bottom: 4px; }
+.flow-desc { font-size: 13px; color: var(--gray-400); line-height: 1.5; }
+
+.img-feature-box {
+  background: linear-gradient(135deg, var(--blue-bg), #D6EAF8);
+  border: 1px solid #AED6F1;
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  margin: 16px 0;
+}
+.img-feature-box h4 { font-size: 14px; font-weight: 700; color: var(--blue); margin-bottom: 10px; }
+.img-feature-box ul { list-style: none; }
+.img-feature-box ul li {
+  font-size: 13px;
+  color: var(--gray-700);
+  padding: 4px 0;
+  padding-left: 18px;
+  position: relative;
+  line-height: 1.5;
+}
+.img-feature-box ul li::before {
+  content: '→';
+  position: absolute;
+  left: 0;
+  color: var(--blue);
+  font-weight: 700;
+}
+
+.arch-diagram {
+  background: var(--gray-50);
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  margin: 16px 0;
+}
+.arch-layer {
+  background: white;
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius-md);
+  padding: 10px 14px;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+}
+.arch-icon { font-size: 18px; }
+.arch-name { font-weight: 700; color: var(--gray-900); }
+.arch-desc { color: var(--gray-400); font-size: 12px; }
+.arch-arrow { text-align: center; color: var(--gray-400); font-size: 18px; margin: 2px 0; }
+
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin: 12px 0;
+}
+.kpi-card {
+  background: var(--gray-50);
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius-md);
+  padding: 14px;
+  text-align: center;
+}
+.kpi-val { font-family: var(--font-display); font-size: 22px; font-weight: 900; color: var(--primary); }
+.kpi-name { font-size: 11px; color: var(--gray-400); margin-top: 3px; line-height: 1.3; }
+
+.milestone-row {
+  display: flex;
+  gap: 0;
+  overflow: hidden;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--gray-200);
+  margin: 12px 0;
+}
+.milestone-cell {
+  flex: 1;
+  padding: 12px;
+  border-right: 1px solid var(--gray-200);
+  font-size: 12px;
+}
+.milestone-cell:last-child { border-right: none; }
+.milestone-phase { font-weight: 700; color: var(--gray-900); margin-bottom: 4px; font-size: 13px; }
+.milestone-date { color: var(--primary); font-weight: 700; margin-bottom: 6px; }
+.milestone-items { color: var(--gray-400); line-height: 1.6; }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="proto-nav">
+  <div class="proto-logo">Word<span>Quest</span> <span style="font-size:13px;font-weight:700;color:var(--gray-400)">850</span></div>
+  <div class="nav-tab active" onclick="showPage('screens')">📱 产品原型</div>
+  <div class="nav-tab" onclick="showPage('prd')">📄 需求文档 <span class="nav-badge">PRD</span></div>
+</nav>
+
+<!-- SCREENS PAGE -->
+<div class="screens-wrap active" id="page-screens">
+
+  <!-- Screen 1: Home -->
+  <div>
+    <div class="screen-label">01 · 首页 / 学习地图</div>
+    <div class="phone screen-frame">
+      <div class="phone-status">
+        <span>9:41</span>
+        <span>●●● WiFi 🔋</span>
+      </div>
+      <div class="home-screen">
+        <!-- Header -->
+        <div class="home-header">
+          <div>
+            <div class="home-greeting">早上好 👋</div>
+            <div class="home-name">小明同学</div>
+          </div>
+          <div class="home-avatar">小</div>
+        </div>
+        <!-- Streak -->
+        <div class="streak-banner">
+          <div class="streak-flame">🔥</div>
+          <div class="streak-text">
+            <div class="streak-days">7天</div>
+            <div class="streak-label">连续学习打卡</div>
+          </div>
+          <div style="text-align:right">
+            <div class="streak-pts">1,240</div>
+            <div class="streak-pts-label">总积分</div>
+          </div>
+        </div>
+        <!-- Today's Word -->
+        <div class="section-title">📖 今日单词</div>
+        <div class="word-hero">
+          <div class="word-hero-img">
+            <div style="font-size:80px">🌊</div>
+            <div class="word-hero-tag">今日推荐</div>
+          </div>
+          <div class="word-hero-body">
+            <div class="word-hero-en">ocean</div>
+            <div class="word-hero-phonetic">/ˈoʊʃn/  &nbsp;n.</div>
+            <div class="word-hero-cn">海洋；大量</div>
+            <div class="word-hero-example">"The Pacific Ocean is the largest ocean on Earth."</div>
+            <div class="word-hero-actions">
+              <button class="btn-sm btn-primary">开始学习</button>
+              <button class="btn-sm btn-outline">🔊 发音</button>
+            </div>
+          </div>
+        </div>
+        <!-- Level Map -->
+        <div class="section-title">🗺 闯关地图</div>
+        <div class="level-map">
+          <div class="level-row">
+            <div class="level-node done"><div class="node-icon">🌱</div><div>第1关</div></div>
+            <div class="level-info"><div class="level-info-name">基础名词</div><div class="level-info-sub">100个常用名词</div></div>
+            <div class="level-stars">⭐⭐⭐</div>
+          </div>
+          <div class="level-row">
+            <div class="level-node done"><div class="node-icon">🎯</div><div>第2关</div></div>
+            <div class="level-info"><div class="level-info-name">日常动词</div><div class="level-info-sub">80个核心动词</div></div>
+            <div class="level-stars">⭐⭐⭐</div>
+          </div>
+          <div class="level-row">
+            <div class="level-node current"><div class="node-icon">🌊</div><div>第3关</div></div>
+            <div class="level-info"><div class="level-info-name">自然环境</div><div class="level-info-sub">60个自然词汇</div></div>
+            <div class="level-stars">⭐⭐</div>
+          </div>
+          <div class="level-row">
+            <div class="level-node locked"><div class="node-icon">🔒</div><div>第4关</div></div>
+            <div class="level-info"><div class="level-info-name">人物描述</div><div class="level-info-sub">70个描述词汇</div></div>
+            <div class="level-stars" style="color:var(--gray-200)">⭐⭐⭐</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Screen 2: Learning Card with Image -->
+  <div>
+    <div class="screen-label">02 · 单词学习卡（含图片）</div>
+    <div class="phone screen-frame">
+      <div class="phone-status">
+        <div>9:41</div>
+        <div>●●● 🔋</div>
+      </div>
+      <div class="learn-screen">
+        <div class="learn-header">
+          <div class="back-btn">←</div>
+          <div class="learn-title">自然环境 · 第3关</div>
+          <div class="hearts">❤️❤️❤️</div>
+        </div>
+        <div class="learn-progress">
+          <div class="prog-bar"><div class="prog-fill" style="width:40%"></div></div>
+          <div class="prog-label">4 / 10</div>
+        </div>
+        <!-- Word card with big image -->
+        <div class="word-card-big">
+          <div class="word-card-img">
+            <div class="word-img-placeholder" style="background:linear-gradient(135deg,#D5E8F8,#A8CCE8)">
+              🌊
+            </div>
+            <div class="img-source-tag">📸 图片搜索</div>
+            <div class="audio-fab">🔊</div>
+          </div>
+          <div class="word-card-body">
+            <div class="wc-en">ocean</div>
+            <div class="wc-phonetic">/ˈoʊʃn/</div>
+            <div><span class="wc-part">名词 n.</span></div>
+            <div class="wc-cn">海洋；大量</div>
+            <div class="wc-example">The <em>ocean</em> covers more than 70% of the Earth.</div>
+          </div>
+        </div>
+        <!-- Quiz -->
+        <div class="quiz-area">
+          <div class="quiz-q">选出 "ocean" 的正确中文意思</div>
+          <div class="opts">
+            <div class="opt correct">海洋 ✓</div>
+            <div class="opt">森林</div>
+            <div class="opt">沙漠</div>
+            <div class="opt">山脉</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Screen 3: Image Search / Management -->
+  <div>
+    <div class="screen-label">03 · 图片搜索与管理</div>
+    <div class="phone screen-frame">
+      <div class="phone-status">
+        <div>9:41</div>
+        <div>●●● 🔋</div>
+      </div>
+      <div class="img-search-screen">
+        <div class="img-search-header">
+          <div class="img-search-title">为 "ocean" 选择图片</div>
+          <div class="search-bar">
+            <span>🔍</span>
+            <span style="color:var(--gray-400)">ocean sea water waves</span>
+          </div>
+        </div>
+        <!-- Source tabs -->
+        <div style="display:flex;gap:0;border-bottom:1px solid var(--gray-200);background:white;">
+          <div style="flex:1;text-align:center;padding:10px 0;font-size:12px;font-weight:700;color:var(--primary);border-bottom:2px solid var(--primary)">Unsplash</div>
+          <div style="flex:1;text-align:center;padding:10px 0;font-size:12px;color:var(--gray-400)">Pixabay</div>
+          <div style="flex:1;text-align:center;padding:10px 0;font-size:12px;color:var(--gray-400)">Emoji</div>
+          <div style="flex:1;text-align:center;padding:10px 0;font-size:12px;color:var(--gray-400)">上传</div>
+        </div>
+        <!-- Image grid -->
+        <div class="img-grid">
+          <div class="img-cell selected" style="background:linear-gradient(135deg,#1a6b9a,#0d4f72)">
+            🌊
+            <div class="check-badge">✓</div>
+            <div class="img-cell-overlay">ocean waves</div>
+          </div>
+          <div class="img-cell" style="background:linear-gradient(135deg,#2980B9,#1F618D)">🐋<div class="img-cell-overlay">deep sea</div></div>
+          <div class="img-cell" style="background:linear-gradient(135deg,#A9CCE3,#76B5D4)">⛵<div class="img-cell-overlay">sea sailing</div></div>
+          <div class="img-cell" style="background:linear-gradient(135deg,#1ABC9C,#148F77)">🐠<div class="img-cell-overlay">tropical fish</div></div>
+          <div class="img-cell" style="background:linear-gradient(135deg,#5499C7,#2E86C1)">🏖️<div class="img-cell-overlay">beach shore</div></div>
+          <div class="img-cell" style="background:linear-gradient(135deg,#0E6655,#0B5345)">🦭<div class="img-cell-overlay">sea animals</div></div>
+          <div class="img-cell" style="background:linear-gradient(135deg,#7FB3D3,#5499C7)">🌅<div class="img-cell-overlay">ocean sunset</div></div>
+          <div class="img-cell" style="background:linear-gradient(135deg,#117A65,#0E6655)">🐬<div class="img-cell-overlay">dolphins</div></div>
+          <div class="img-cell" style="background:linear-gradient(135deg,#D4AC0D,#B7950B)">🏄<div class="img-cell-overlay">surfing waves</div></div>
+        </div>
+        <div class="img-action-bar">
+          <button class="btn-sm btn-outline" style="flex:1">取消</button>
+          <button class="btn-sm btn-primary" style="flex:2">✓ 使用此图片</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Screen 4: Challenge Mode -->
+  <div>
+    <div class="screen-label">04 · 限时闯关模式</div>
+    <div class="phone screen-frame">
+      <div class="phone-status" style="background:#0F0F1E">
+        <div>9:41</div>
+        <div>●●● 🔋</div>
+      </div>
+      <div class="chal-screen">
+        <div class="chal-header">
+          <div class="chal-title">⚡ 闪电闯关</div>
+          <div class="timer-badge">0:47</div>
+        </div>
+        <div class="chal-score-bar">
+          <div class="chal-score-item"><div class="chal-score-num" style="color:#FFD700">12</div><div class="chal-score-lbl">已答对</div></div>
+          <div class="chal-score-item"><div class="chal-score-num" style="color:var(--primary)">3</div><div class="chal-score-lbl">连击</div></div>
+          <div class="chal-score-item"><div class="chal-score-num">480</div><div class="chal-score-lbl">分数</div></div>
+        </div>
+        <!-- Word with image -->
+        <div class="chal-word-img">
+          <div style="font-size:90px">🌲</div>
+        </div>
+        <div class="chal-word-en">forest</div>
+        <!-- Options -->
+        <div class="chal-opts">
+          <div class="chal-opt">沙漠</div>
+          <div class="chal-opt correct">森林 ✓</div>
+          <div class="chal-opt">海洋</div>
+          <div class="chal-opt wrong">草原 ✗</div>
+        </div>
+        <!-- Bottom hint -->
+        <div style="text-align:center;padding:16px;color:rgba(255,255,255,.4);font-size:12px">
+          🏆 历史最高分：780 分
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Screen 5: Stats -->
+  <div>
+    <div class="screen-label">05 · 学习统计</div>
+    <div class="phone screen-frame">
+      <div class="phone-status">
+        <div>9:41</div>
+        <div>●●● 🔋</div>
+      </div>
+      <div class="stats-screen">
+        <div class="stats-header">
+          <div class="stats-header-title">📊 我的学习报告</div>
+          <div class="stats-grid">
+            <div class="stat-card"><div class="stat-num">286</div><div class="stat-lbl">已掌握单词</div></div>
+            <div class="stat-card"><div class="stat-num">7</div><div class="stat-lbl">连续打卡天</div></div>
+            <div class="stat-card"><div class="stat-num">34%</div><div class="stat-lbl">850词完成</div></div>
+            <div class="stat-card"><div class="stat-num">1,240</div><div class="stat-lbl">总积分</div></div>
+          </div>
+        </div>
+        <!-- Heatmap -->
+        <div class="heatmap">
+          <div class="heatmap-title">📅 最近学习热力图</div>
+          <div class="heatmap-grid">
+            <div class="hm-cell l1"></div><div class="hm-cell l2"></div><div class="hm-cell l3"></div>
+            <div class="hm-cell l1"></div><div class="hm-cell l4"></div><div class="hm-cell l2"></div>
+            <div class="hm-cell l3"></div><div class="hm-cell l4"></div><div class="hm-cell l3"></div>
+            <div class="hm-cell l2"></div><div class="hm-cell l1"></div><div class="hm-cell l4"></div>
+            <div class="hm-cell l3"></div><div class="hm-cell l2"></div><div class="hm-cell today l4"></div>
+          </div>
+          <div style="display:flex;align-items:center;gap:4px;margin-top:8px;font-size:10px;color:var(--gray-400)">
+            <span>少</span>
+            <div style="width:10px;height:10px;border-radius:2px;background:var(--gray-200)"></div>
+            <div style="width:10px;height:10px;border-radius:2px;background:#FDDFD5"></div>
+            <div style="width:10px;height:10px;border-radius:2px;background:#FF8C5A"></div>
+            <div style="width:10px;height:10px;border-radius:2px;background:var(--primary)"></div>
+            <span>多</span>
+          </div>
+        </div>
+        <!-- Mastery -->
+        <div class="mastery-chart">
+          <div class="mastery-title">🎓 词汇掌握分布</div>
+          <div class="mastery-row">
+            <div class="mastery-cat">名词</div>
+            <div class="mastery-bar-wrap"><div class="mastery-bar" style="width:72%;background:var(--green)"></div></div>
+            <div class="mastery-pct">72%</div>
+          </div>
+          <div class="mastery-row">
+            <div class="mastery-cat">动词</div>
+            <div class="mastery-bar-wrap"><div class="mastery-bar" style="width:55%;background:var(--blue)"></div></div>
+            <div class="mastery-pct">55%</div>
+          </div>
+          <div class="mastery-row">
+            <div class="mastery-cat">形容词</div>
+            <div class="mastery-bar-wrap"><div class="mastery-bar" style="width:38%;background:var(--purple)"></div></div>
+            <div class="mastery-pct">38%</div>
+          </div>
+          <div class="mastery-row">
+            <div class="mastery-cat">副词</div>
+            <div class="mastery-bar-wrap"><div class="mastery-bar" style="width:22%;background:var(--amber)"></div></div>
+            <div class="mastery-pct">22%</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- end screens-wrap -->
+
+
+<!-- PRD PAGE -->
+<div class="prd-page" id="page-prd">
+  <div class="prd-doc">
+
+    <div class="prd-hero">
+      <div class="prd-hero-tag">Product Requirements Document</div>
+      <div class="prd-hero-title">WordQuest 850<br>英语单词闯关学习App</div>
+      <div class="prd-hero-sub">以图片为核心记忆锚点，融合闯关游戏机制，帮助英语零基础用户高效掌握850个核心词汇</div>
+      <div class="prd-meta">
+        <div class="prd-meta-item"><strong>版本</strong>v1.0.0</div>
+        <div class="prd-meta-item"><strong>文档状态</strong>评审中</div>
+        <div class="prd-meta-item"><strong>目标平台</strong>iOS / Android</div>
+        <div class="prd-meta-item"><strong>预计周期</strong>16周</div>
+      </div>
+    </div>
+
+    <div class="prd-body">
+
+      <!-- TOC -->
+      <div class="prd-toc">
+        <div class="prd-toc-title">目录</div>
+        <ul class="prd-toc-list">
+          <li><a href="#">1. 产品概述与目标</a></li>
+          <li><a href="#">2. 用户画像</a></li>
+          <li><a href="#">3. 核心功能模块</a></li>
+          <li><a href="#">4. 图片系统设计（核心）</a></li>
+          <li><a href="#">5. 闯关关卡系统</a></li>
+          <li><a href="#">6. 激励与成就系统</a></li>
+          <li><a href="#">7. 技术架构</a></li>
+          <li><a href="#">8. 成功指标</a></li>
+          <li><a href="#">9. 里程碑计划</a></li>
+          <li><a href="#">10. 风险与依赖</a></li>
+        </ul>
+      </div>
+
+      <!-- 1 -->
+      <div class="prd-section">
+        <div class="prd-h2"><span class="prd-section-num">1</span>产品概述与目标</div>
+        <p class="prd-p">WordQuest 850 是一款面向英语零基础学习者的移动端闯关单词App。核心洞察：<strong>单词学习枯燥的根本原因是"抽象文字缺乏具象联想"</strong>。通过为每个单词绑定真实图片，配合5种递进式游戏关卡，让用户在"看图说词—拼写—配对—限时—造句"的路径中完成从认识到会用的全链路掌握。</p>
+        <div class="prd-h3">产品目标</div>
+        <table class="feature-table">
+          <tr><th>维度</th><th>目标</th></tr>
+          <tr><td>用户留存</td><td>7日留存率 ≥ 45%，30日留存率 ≥ 22%</td></tr>
+          <tr><td>学习效果</td><td>用户平均14天内掌握100个单词（艾宾浩斯测试通过率≥80%）</td></tr>
+          <tr><td>使用频率</td><td>日活用户平均学习时长 ≥ 8分钟</td></tr>
+          <tr><td>完成率</td><td>启动用户中，850词全部完成率 ≥ 15%</td></tr>
+        </table>
+      </div>
+
+      <!-- 2 -->
+      <div class="prd-section">
+        <div class="prd-h2"><span class="prd-section-num">2</span>用户画像</div>
+        <table class="feature-table">
+          <tr><th>属性</th><th>描述</th></tr>
+          <tr><td>核心用户</td><td>18–35岁，英语零基础或初级，有提升需求但自律性一般</td></tr>
+          <tr><td>痛点</td><td>背单词太枯燥，记了就忘，不知道从哪里开始</td></tr>
+          <tr><td>动机</td><td>出行、工作、看剧等实用场景驱动，非应试驱动</td></tr>
+          <tr><td>使用场景</td><td>碎片时间（通勤、睡前）、每次使用5–15分钟</td></tr>
+        </table>
+      </div>
+
+      <!-- 3 -->
+      <div class="prd-section">
+        <div class="prd-h2"><span class="prd-section-num">3</span>核心功能模块</div>
+        <table class="feature-table">
+          <tr><th>模块</th><th>功能概述</th><th>优先级</th></tr>
+          <tr><td>📖 单词卡片</td><td>图片+音标+释义+例句，支持发音播放</td><td><span class="prd-tag tag-must">P0 必须</span></td></tr>
+          <tr><td>🖼️ 图片系统</td><td>自动搜索图片、支持手动选择、支持用户上传</td><td><span class="prd-tag tag-must">P0 必须</span></td></tr>
+          <tr><td>🎮 五关模式</td><td>选择题→拼写→配对→限时→造句，递进式学习</td><td><span class="prd-tag tag-must">P0 必须</span></td></tr>
+          <tr><td>🗺️ 关卡地图</td><td>850词分85关，主题分组，可视化解锁进度</td><td><span class="prd-tag tag-must">P0 必须</span></td></tr>
+          <tr><td>🔁 复习系统</td><td>基于艾宾浩斯遗忘曲线，智能推送待复习单词</td><td><span class="prd-tag tag-must">P0 必须</span></td></tr>
+          <tr><td>📊 统计面板</td><td>热力图、掌握率分布、连续打卡天数</td><td><span class="prd-tag tag-should">P1 应有</span></td></tr>
+          <tr><td>🏆 成就系统</td><td>徽章、积分、排行榜</td><td><span class="prd-tag tag-should">P1 应有</span></td></tr>
+          <tr><td>🤖 AI造句批改</td><td>用户造句后调用Claude API打分+点评</td><td><span class="prd-tag tag-nice">P2 增值</span></td></tr>
+        </table>
+      </div>
+
+      <!-- 4 -->
+      <div class="prd-section">
+        <div class="prd-h2"><span class="prd-section-num">4</span>图片系统设计（核心功能）</div>
+        <p class="prd-p">图片系统是本产品与其他单词App最大的差异化功能。每个单词都绑定一张或多张真实图片，作为记忆的"视觉锚点"，显著降低遗忘速度。</p>
+
+        <div class="img-feature-box">
+          <h4>🖼️ 图片获取策略（三层漏斗）</h4>
+          <ul>
+            <li><strong>第一优先：预置图库</strong> — 850词在发布前由运营团队人工审核绑定高质量图片，用户离线可用</li>
+            <li><strong>第二层：自动搜索</strong> — 接入 Unsplash / Pixabay / Pexels 免版权图库API，按英文单词实时搜索</li>
+            <li><strong>第三层：用户自定义</strong> — 用户可从相册上传或直接从搜索结果中选择替换默认图片，个性化绑定</li>
+          </ul>
+        </div>
+
+        <div class="prd-h3">图片展示规格</div>
+        <table class="feature-table">
+          <tr><th>场景</th><th>尺寸</th><th>裁剪方式</th><th>加载策略</th></tr>
+          <tr><td>学习卡片主图</td><td>全宽 × 200px</td><td>Center crop</td><td>预加载下一张</td></tr>
+          <tr><td>首页今日单词</td><td>全宽 × 140px</td><td>Top crop</td><td>懒加载</td></tr>
+          <tr><td>限时闯关</td><td>全宽 × 180px</td><td>Center crop</td><td>预缓存5张</td></tr>
+          <tr><td>图片搜索网格</td><td>1/3宽 × 1:1</td><td>Square crop</td><td>分页加载20张</td></tr>
+          <tr><td>无图降级</td><td>全宽</td><td>—</td><td>彩色Emoji大图兜底</td></tr>
+        </table>
+
+        <div class="prd-h3">图片搜索页交互流程</div>
+        <div class="flow-steps">
+          <div class="flow-step">
+            <div class="flow-dot">1</div>
+            <div class="flow-content">
+              <div class="flow-title">触发入口</div>
+              <div class="flow-desc">在单词卡片页，点击图片右上角"编辑"按钮，或在设置中选择"更换图片"</div>
+            </div>
+          </div>
+          <div class="flow-step">
+            <div class="flow-dot">2</div>
+            <div class="flow-content">
+              <div class="flow-title">自动搜索</div>
+              <div class="flow-desc">进入图片选择页，系统自动以英文单词为关键词，并发查询 Unsplash + Pixabay，展示9宫格结果</div>
+            </div>
+          </div>
+          <div class="flow-step">
+            <div class="flow-dot">3</div>
+            <div class="flow-content">
+              <div class="flow-title">手动调整关键词</div>
+              <div class="flow-desc">顶部搜索栏可修改查询词（系统自动附加英文修饰词提升图片相关性），回车刷新结果</div>
+            </div>
+          </div>
+          <div class="flow-step">
+            <div class="flow-dot">4</div>
+            <div class="flow-content">
+              <div class="flow-title">来源切换</div>
+              <div class="flow-desc">Tab栏支持切换：Unsplash / Pixabay / Emoji大图 / 从相册上传，满足不同偏好</div>
+            </div>
+          </div>
+          <div class="flow-step">
+            <div class="flow-dot">5</div>
+            <div class="flow-content">
+              <div class="flow-title">选择与确认</div>
+              <div class="flow-desc">点击图片高亮选中（橙色边框+勾选标记），点击"使用此图片"确认，图片本地缓存，下次离线可用</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 5 -->
+      <div class="prd-section">
+        <div class="prd-h2"><span class="prd-section-num">5</span>闯关关卡系统</div>
+        <table class="feature-table">
+          <tr><th>关卡</th><th>玩法</th><th>图片角色</th><th>通关条件</th><th>积分</th></tr>
+          <tr><td>第1关 · 认识</td><td>看图+英文，4选1中文</td><td>大图展示，强化印象</td><td>10题正确≥8题</td><td>+10/题</td></tr>
+          <tr><td>第2关 · 拼写</td><td>看图+中文，输入英文</td><td>图片作为唯一提示</td><td>8词全部正确</td><td>+15/题</td></tr>
+          <tr><td>第3关 · 配对</td><td>英中两列连线</td><td>小缩略图辅助</td><td>6对全部配对</td><td>+8/对</td></tr>
+          <tr><td>第4关 · 限时</td><td>60秒看图选中文</td><td>图片为题目核心</td><td>答对≥10题</td><td>计时加成×1.5</td></tr>
+          <tr><td>第5关 · 造句</td><td>用单词造英文句</td><td>图片提供语境灵感</td><td>AI评分≥70分</td><td>+50/题</td></tr>
+        </table>
+
+        <div class="prd-h3">关卡地图组织</div>
+        <p class="prd-p">850个单词按主题分为17个大关（每关50词），每大关内分5个小关卡，对应5种游戏模式。主题包括：基础物品、自然环境、人物描述、日常行为、时间地点、情感表达、饮食购物、交通出行等。</p>
+      </div>
+
+      <!-- 6 -->
+      <div class="prd-section">
+        <div class="prd-h2"><span class="prd-section-num">6</span>激励与成就系统</div>
+        <table class="feature-table">
+          <tr><th>机制</th><th>规则</th><th>目的</th></tr>
+          <tr><td>🔥 连续打卡</td><td>每日学≥10词计入，断签清零，可用道具恢复1次</td><td>提升日活</td></tr>
+          <tr><td>⭐ 关卡星级</td><td>每关最多3星，答错扣星，可重新挑战刷星</td><td>促进完美主义用户回刷</td></tr>
+          <tr><td>🏅 成就徽章</td><td>首次学100词、连续7天、全5关通关等触发</td><td>社交分享传播</td></tr>
+          <tr><td>💎 积分商城</td><td>积分可兑换"提示次数""复活次数""限时冲关加时"</td><td>提高积分价值感</td></tr>
+          <tr><td>📈 排行榜</td><td>好友榜+全球榜，每周重置，前10名有专属图标</td><td>社交竞争驱动</td></tr>
+        </table>
+      </div>
+
+      <!-- 7 -->
+      <div class="prd-section">
+        <div class="prd-h2"><span class="prd-section-num">7</span>技术架构</div>
+        <div class="arch-diagram">
+          <div class="arch-layer">
+            <div class="arch-icon">📱</div>
+            <div><div class="arch-name">前端层</div><div class="arch-desc">React Native（iOS + Android 共用代码库）</div></div>
+          </div>
+          <div class="arch-arrow">↕</div>
+          <div class="arch-layer">
+            <div class="arch-icon">🖼️</div>
+            <div><div class="arch-name">图片服务层</div><div class="arch-desc">Unsplash API + Pixabay API + CDN缓存 + 本地SQLite图片索引</div></div>
+          </div>
+          <div class="arch-arrow">↕</div>
+          <div class="arch-layer">
+            <div class="arch-icon">🔊</div>
+            <div><div class="arch-name">音频服务</div><div class="arch-desc">预录制MP3（850词）+ TTS备用（在线），本地缓存</div></div>
+          </div>
+          <div class="arch-arrow">↕</div>
+          <div class="arch-layer">
+            <div class="arch-icon">🤖</div>
+            <div><div class="arch-name">AI服务</div><div class="arch-desc">Claude API（造句批改） — 仅第5关调用，有请求频控</div></div>
+          </div>
+          <div class="arch-arrow">↕</div>
+          <div class="arch-layer">
+            <div class="arch-icon">☁️</div>
+            <div><div class="arch-name">后端服务</div><div class="arch-desc">用户进度同步、排行榜、成就、push通知</div></div>
+          </div>
+        </div>
+
+        <div class="prd-h3">关键技术决策</div>
+        <table class="feature-table">
+          <tr><th>决策点</th><th>方案</th><th>理由</th></tr>
+          <tr><td>图片存储</td><td>图片URL存云端，图片内容按需下载+本地LRU缓存</td><td>节省包体积，保证质量</td></tr>
+          <tr><td>离线支持</td><td>850词基础数据+预置图片包（约80MB）可离线</td><td>保证无网可用</td></tr>
+          <tr><td>图片版权</td><td>仅接入CC0免版权图库（Unsplash/Pixabay），用户上传图片仅本地存储</td><td>规避版权风险</td></tr>
+          <tr><td>词库更新</td><td>词库通过OTA热更新，无需App Store审核</td><td>快速迭代</td></tr>
+        </table>
+      </div>
+
+      <!-- 8 -->
+      <div class="prd-section">
+        <div class="prd-h2"><span class="prd-section-num">8</span>成功指标（KPI）</div>
+        <div class="kpi-grid">
+          <div class="kpi-card"><div class="kpi-val">45%</div><div class="kpi-name">7日留存率目标</div></div>
+          <div class="kpi-card"><div class="kpi-val">8min</div><div class="kpi-name">日均学习时长</div></div>
+          <div class="kpi-card"><div class="kpi-val">80%</div><div class="kpi-name">单词记忆测试通过率</div></div>
+          <div class="kpi-card"><div class="kpi-val">4.5★</div><div class="kpi-name">应用商店评分</div></div>
+          <div class="kpi-card"><div class="kpi-val">15%</div><div class="kpi-name">850词全完成率</div></div>
+          <div class="kpi-card"><div class="kpi-val">60%</div><div class="kpi-name">自定义图片使用率</div></div>
+        </div>
+      </div>
+
+      <!-- 9 -->
+      <div class="prd-section">
+        <div class="prd-h2"><span class="prd-section-num">9</span>里程碑计划</div>
+        <div class="milestone-row">
+          <div class="milestone-cell">
+            <div class="milestone-phase">🌱 M1</div>
+            <div class="milestone-date">第1–4周</div>
+            <div class="milestone-items">词库整理<br>图片预置<br>基础卡片</div>
+          </div>
+          <div class="milestone-cell">
+            <div class="milestone-phase">🛠️ M2</div>
+            <div class="milestone-date">第5–8周</div>
+            <div class="milestone-items">5关游戏<br>图片搜索<br>发音功能</div>
+          </div>
+          <div class="milestone-cell">
+            <div class="milestone-phase">✨ M3</div>
+            <div class="milestone-date">第9–12周</div>
+            <div class="milestone-items">关卡地图<br>激励系统<br>AI造句</div>
+          </div>
+          <div class="milestone-cell">
+            <div class="milestone-phase">🚀 M4</div>
+            <div class="milestone-date">第13–16周</div>
+            <div class="milestone-items">统计面板<br>排行榜<br>上架发布</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 10 -->
+      <div class="prd-section">
+        <div class="prd-h2"><span class="prd-section-num">10</span>风险与依赖</div>
+        <table class="feature-table">
+          <tr><th>风险</th><th>等级</th><th>应对策略</th></tr>
+          <tr><td>Unsplash/Pixabay API限额不足</td><td><span class="prd-tag tag-should">中</span></td><td>预置图片兜底 + 多API轮转 + 用户Emoji降级</td></tr>
+          <tr><td>部分抽象词汇难以找到合适图片</td><td><span class="prd-tag tag-should">中</span></td><td>抽象词用场景图（如"happy"用笑脸场景）+ 运营人工审核</td></tr>
+          <tr><td>Claude API造句批改成本</td><td><span class="prd-tag tag-must">高</span></td><td>每日每用户限3次免费，付费版无限次；批改做本地规则粗筛再调API</td></tr>
+          <tr><td>用户上传违规图片</td><td><span class="prd-tag tag-should">中</span></td><td>仅本地存储，不上传服务器，无内容审核压力</td></tr>
+        </table>
+      </div>
+
+    </div><!-- end prd-body -->
+  </div>
+</div><!-- end prd-page -->
+
+<script>
+function showPage(id) {
+  document.querySelectorAll('.screens-wrap, .prd-page').forEach(el => el.classList.remove('active'));
+  document.getElementById('page-' + id).classList.add('active');
+  document.querySelectorAll('.nav-tab').forEach((t, i) => {
+    t.classList.toggle('active', (id === 'screens' && i === 0) || (id === 'prd' && i === 1));
+  });
+}
+</script>
+</body>
+</html>
